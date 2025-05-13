@@ -26,7 +26,7 @@
             <configuration>
               <transformers>
                 <transformer>
-                  <mainClass>com.example.LangChainServer</mainClass>
+                  <mainClass>com.wipro.cloudcareai.sdmd_genai_server.LangChainServer</mainClass>
                 </transformer>
               </transformers>
             </configuration>
