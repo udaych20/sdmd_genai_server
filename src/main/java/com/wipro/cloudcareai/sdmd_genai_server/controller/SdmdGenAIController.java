@@ -13,6 +13,7 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import com.wipro.cloudcareai.sdmd_genai_server.config.ConfigLoader;
+import com.wipro.cloudcareai.sdmd_genai_server.config.context.ContextLoader;
 
 import dev.langchain4j.model.language.LanguageModel;
 import dev.langchain4j.model.ollama.OllamaLanguageModel;
@@ -30,6 +31,8 @@ public class SdmdGenAIController {
             .baseUrl(BASE_URL)
             .modelName(MODEL_NAME)
             .build();
+    
+    private static final String CONTEXT = ContextLoader.loadContext("context.txt");
 
     public static void main(String[] args) throws IOException {
         logger.info("Initializing LangChain4j server with model: {} @ {}", MODEL_NAME, BASE_URL);
@@ -67,7 +70,8 @@ public class SdmdGenAIController {
             }
 
             try {
-                answer = model.generate(prompt).content();
+            	 //answer = model.generate(prompt).content(); - without context
+                answer = model.generate(CONTEXT + "\n\nUser: " + prompt + "\nAI:").content();
                 queryLogger.info("Prompt: {}\nResponse: {}", prompt, answer);
             } catch (Exception e) {
                 logger.error("Error while generating response for prompt: {}", prompt, e);
